@@ -1,0 +1,68 @@
+Problem Statement 1: Basic Docker Commands
+Try out some docker basic commands:
+1) Write a command to pull an openjdk:8-apline and mysql image from registry to local machine.
+2) Write a command to show all the images.
+3) Write a command to run both the container and link the mysql server to openjdk:8-apline instance in 
+interactive mode.
+4) Write a command to run both the container and link the mysql server to openjdk:8-apline instance in 
+detached mode.
+5) Write a command to list all the registered containers that are running.
+6) Write a command to show all the logs of the containers.
+7) Write a command to interact with the containers.
+8) Write a command to stop and start the container.
+9) Write a command to create your own registry for faster performance.
+10) Write a command to create your own image and list all images.
+11) Write a command to push, pull and remove the image from your own registry.
+12) Write a command to remove the stopped containers.
+13) Write a command to list information about one or more networks.
+14) Write a Dockerfile for the “Hello World” Java program and build the customize image.
+15) Write a command to run the customize image and push the image to hub.docker.com
+
+
+Solution
+
+1) docker pull openjdk:8-alpine
+   docker pull mysql
+
+2) docker images
+
+3) docker run -it --link mysql:mysql openjdk:8-alpine
+
+4) docker run -d --link mysql:mysql openjdk:8-alpine
+
+5) docker ps
+
+6) docker logs [container_name]
+
+7) docker exec -it [container_name] /bin/bash
+
+8) docker stop [container_name]
+   docker start [container_name]
+
+9) docker run -d -p 5000:5000 --restart=always --name registry registry:2
+
+10) docker build -t my_image_name .
+     docker images
+
+11) docker tag my_image_name localhost:5000/my_image_name
+     docker push localhost:5000/my_image_name
+     docker pull localhost:5000/my_image_name
+     docker rmi localhost:5000/my_image_name
+
+12) docker rm $(docker ps -a -q)
+
+13) docker network ls
+
+14) Dockerfile:
+
+    FROM openjdk:8-alpine
+    COPY HelloWorld.java /code/
+    WORKDIR /code
+    RUN javac HelloWorld.java
+    CMD ["java", "-cp", ".", "HelloWorld"]
+
+    docker build -t hello-world .
+
+15) docker login
+     docker tag hello-world username/hello-world
+     docker push username/hello-world
